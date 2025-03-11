@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class FragmentJuego extends Fragment {
     private int tamanoRompecabezas;
@@ -52,6 +53,20 @@ public class FragmentJuego extends Fragment {
         if (imagenSeleccionada == null) {
             return;
         }
+
+        Button btnResolver = view.findViewById(R.id.btn_resolver);
+        btnResolver.setOnClickListener(v -> {
+            SolverAStar solver = new SolverAStar();
+            List<NodoPuzzle> solucion = solver.resolver(obtenerEstadoActual());
+
+            if (solucion != null) {
+                AnimadorRompecabezas animador = new AnimadorRompecabezas(this);
+                animador.animarSolucion(solucion);
+            } else {
+                Toast.makeText(getContext(), "No se encontró solución", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         imagenOriginal = view.findViewById(R.id.imagen_original);
         imagenOriginal.setImageBitmap(imagenSeleccionada);
@@ -159,4 +174,33 @@ public class FragmentJuego extends Fragment {
         Button btnVolver = getView().findViewById(R.id.btn_volver);
         btnVolver.setText("¡Ganaste! Volver");
     }
+    public void actualizarRompecabezas(int[][] nuevoEstado) {
+        for (int i = 0; i < tamanoRompecabezas; i++) {
+            for (int j = 0; j < tamanoRompecabezas; j++) {
+                if (nuevoEstado[i][j] == 0) {
+                    piezas[i][j].setImageDrawable(null);
+                } else {
+                    piezas[i][j].setImageBitmap(piezasImagen.get(nuevoEstado[i][j] - 1));
+                }
+            }
+        }
+    }
+    public int[][] obtenerEstadoActual() {
+        int[][] estado = new int[tamanoRompecabezas][tamanoRompecabezas];
+
+        for (int i = 0; i < tamanoRompecabezas; i++) {
+            for (int j = 0; j < tamanoRompecabezas; j++) {
+                if (piezas[i][j].getDrawable() == null) {
+                    estado[i][j] = 0; // Espacio en blanco
+                } else {
+                    // Buscar la imagen en la lista de piezas y asignar su número correspondiente
+                    Bitmap bitmapActual = ((BitmapDrawable) piezas[i][j].getDrawable()).getBitmap();
+                    int index = piezasImagen.indexOf(bitmapActual);
+                    estado[i][j] = index + 1; // Sumamos 1 para mantener la numeración
+                }
+            }
+        }
+        return estado;
+    }
+
 }

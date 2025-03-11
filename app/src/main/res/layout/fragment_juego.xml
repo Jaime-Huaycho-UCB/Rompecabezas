@@ -49,4 +49,15 @@
         android:padding="14dp"
         android:elevation="8dp"
         android:layout_marginTop="12dp"/>
+    <Button
+        android:id="@+id/btn_resolver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resolver automáticamente"
+        android:textColor="#FFFFFF"
+        android:background="#FF5722"
+        android:padding="14dp"
+        android:elevation="8dp"
+        android:layout_marginTop="12dp"/>
+
 </LinearLayout>
