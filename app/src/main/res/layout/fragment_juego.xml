@@ -4,36 +4,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#212121">
 
-    <!-- Imagen de referencia -->
+    <!-- Imagen de referencia (Más pequeña para optimizar el espacio) -->
     <ImageView
         android:id="@+id/imagen_original"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:scaleType="centerCrop"
-        android:layout_marginBottom="10dp"
-        android:adjustViewBounds="true"/>
+        android:layout_marginBottom="12dp"
+        android:adjustViewBounds="true"
+        android:background="#424242"
+        android:elevation="6dp"
+        android:padding="4dp"/>
 
-    <!-- Contenedor del rompecabezas -->
-    <GridLayout
-        android:id="@+id/grid_puzzle"
+    <!-- Contenedor para centrar el rompecabezas con su fondo -->
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:columnCount="3"
-        android:rowCount="3"
-        android:gravity="center"
-        android:padding="10dp"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#37474F"
+        android:padding="12dp">
 
-    <!-- Botón de volver -->
+        <!-- Contenedor del rompecabezas, ahora totalmente centrado -->
+        <GridLayout
+            android:id="@+id/grid_puzzle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="3"
+            android:gravity="center"
+            android:padding="4dp"/>
+    </FrameLayout>
+
+    <!-- Botón de volver (ahora bien posicionado debajo del rompecabezas) -->
     <Button
         android:id="@+id/btn_volver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Volver al inicio"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"/>
+        android:textColor="#FFFFFF"
+        android:background="#673AB7"
+        android:padding="14dp"
+        android:elevation="8dp"
+        android:layout_marginTop="12dp"/>
 </LinearLayout>
-
-
