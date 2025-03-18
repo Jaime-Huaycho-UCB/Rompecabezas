@@ -72,6 +72,11 @@ public class FragmentInicio extends Fragment {
                 ((MainActivity) requireActivity()).cambiarFragmento(fragmentJuego);
             }
         });
+
+        Button btnRecords = view.findViewById(R.id.btn_records);
+        btnRecords.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).cambiarFragmento(new FragmentRecords());
+        });
     }
 
     @Override

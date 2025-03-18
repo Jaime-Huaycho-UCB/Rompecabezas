@@ -1,5 +1,6 @@
 package com.example.rompecabezas;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -15,11 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FragmentJuego extends Fragment {
+
+    private Uri imagenUri;
     private int tamanoRompecabezas;
     private GridLayout gridPuzzle;
     private ImageView[][] piezas;
@@ -27,6 +33,9 @@ public class FragmentJuego extends Fragment {
     private ArrayList<Bitmap> piezasImagen;
     private Bitmap imagenSeleccionada;
     private ImageView imagenOriginal;
+
+    private long tiempoInicio;
+    private boolean juegoEnCurso = false;
 
     public FragmentJuego() {
         super(R.layout.fragment_juego);
@@ -38,7 +47,7 @@ public class FragmentJuego extends Fragment {
 
         if (getArguments() != null) {
             tamanoRompecabezas = getArguments().getInt("tamano_rompecabezas", 3);
-            Uri imagenUri = getArguments().getParcelable("imagen_uri");
+            imagenUri = getArguments().getParcelable("imagen_uri");
 
             if (imagenUri != null) {
                 try {
@@ -80,6 +89,8 @@ public class FragmentJuego extends Fragment {
             }
         });
         iniciarRompecabezas();
+        tiempoInicio = System.currentTimeMillis();
+        juegoEnCurso = true;
     }
 
     private void iniciarRompecabezas() {
@@ -170,9 +181,26 @@ public class FragmentJuego extends Fragment {
     }
 
     private void mostrarMensajeVictoria() {
-        Toast.makeText(getContext(), "¡Felicidades! Has completado el rompecabezas", Toast.LENGTH_LONG).show();
-        Button btnVolver = getView().findViewById(R.id.btn_volver);
-        btnVolver.setText("¡Ganaste! Volver");
+//        Toast.makeText(getContext(), "¡Felicidades! Has completado el rompecabezas", Toast.LENGTH_LONG).show();
+//        Button btnVolver = getView().findViewById(R.id.btn_volver);
+//        btnVolver.setText("¡Ganaste! Volver");
+        long tiempoFinal = System.currentTimeMillis();
+        long tiempoTotal = (tiempoFinal - tiempoInicio) / 1000; // Convertir a segundos
+
+        // Obtener fecha y hora actual
+        String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        // Guardar en base de datos
+        DBRecords db = new DBRecords(getContext());
+        db.insertarTiempo(tiempoTotal, imagenUri.toString(), fecha);
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("¡Felicidades!")
+                .setMessage("Has completado el rompecabezas en " + tiempoTotal + " segundos.")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    ((MainActivity) requireActivity()).cambiarFragmento(new FragmentInicio());
+                })
+                .show();
     }
     public void actualizarRompecabezas(int[][] nuevoEstado) {
         for (int i = 0; i < tamanoRompecabezas; i++) {
