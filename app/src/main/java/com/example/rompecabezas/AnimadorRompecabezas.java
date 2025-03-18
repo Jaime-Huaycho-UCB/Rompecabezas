@@ -16,7 +16,7 @@ public class AnimadorRompecabezas {
             for (NodoPuzzle paso : solucion) {
                 handler.post(() -> fragmentJuego.actualizarRompecabezas(paso.estado));
                 try {
-                    Thread.sleep(500); // Pausa de 0.5s entre movimientos
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -7,7 +7,6 @@
     android:padding="20dp"
     android:background="#121212">
 
-    <!-- Botón Galería -->
     <Button
         android:id="@+id/btn_galeria"
         android:layout_width="match_parent"
@@ -19,7 +18,6 @@
         android:layout_marginBottom="12dp"
         android:elevation="8dp"/>
 
-    <!-- Botón Cámara -->
     <Button
         android:id="@+id/btn_camara"
         android:layout_width="match_parent"
@@ -31,7 +29,6 @@
         android:layout_marginBottom="12dp"
         android:elevation="8dp"/>
 
-    <!-- Texto de Instrucción -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +38,6 @@
         android:paddingTop="16dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Campo de Entrada -->
     <EditText
         android:id="@+id/input_tamano"
         android:layout_width="match_parent"
@@ -54,7 +50,6 @@
         android:padding="12dp"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Botón Iniciar Juego -->
     <Button
         android:id="@+id/btn_iniciar"
         android:layout_width="match_parent"

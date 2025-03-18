@@ -7,7 +7,6 @@
     android:padding="16dp"
     android:background="#212121">
 
-    <!-- Imagen de referencia (Más pequeña para optimizar el espacio) -->
     <ImageView
         android:id="@+id/imagen_original"
         android:layout_width="match_parent"
@@ -19,7 +18,6 @@
         android:elevation="6dp"
         android:padding="4dp"/>
 
-    <!-- Contenedor para centrar el rompecabezas con su fondo -->
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +25,6 @@
         android:background="#37474F"
         android:padding="12dp">
 
-        <!-- Contenedor del rompecabezas, ahora totalmente centrado -->
         <GridLayout
             android:id="@+id/grid_puzzle"
             android:layout_width="wrap_content"
@@ -38,7 +35,6 @@
             android:padding="4dp"/>
     </FrameLayout>
 
-    <!-- Botón de volver (ahora bien posicionado debajo del rompecabezas) -->
     <Button
         android:id="@+id/btn_volver"
         android:layout_width="match_parent"

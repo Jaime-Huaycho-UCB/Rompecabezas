@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class NodoPuzzle implements Comparable<NodoPuzzle>{
     int[][] estado;
-    int x, y; // Posición del espacio en blanco
+    int x, y;
     int costo, heuristica;
     NodoPuzzle padre;
 
@@ -18,7 +18,6 @@ public class NodoPuzzle implements Comparable<NodoPuzzle>{
     }
 
     private int calcularHeuristica() {
-        // Heurística de Manhattan: distancia de cada número a su posición correcta
         int h = 0;
         int n = estado.length;
         for (int i = 0; i < n; i++) {
