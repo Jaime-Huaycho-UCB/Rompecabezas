@@ -30,7 +30,6 @@ public class FragmentRecords extends Fragment {
         RecordAdapter adapter = new RecordAdapter(getContext(), tiempos);
         listView.setAdapter(adapter);
 
-        // Eliminar un récord al mantener presionado
         listView.setOnItemLongClickListener((parent, view1, position, id) -> {
             Record recordSeleccionado = tiempos.get(position);
             new AlertDialog.Builder(getContext())

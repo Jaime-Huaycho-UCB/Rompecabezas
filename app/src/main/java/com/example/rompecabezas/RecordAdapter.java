@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.widget.ArrayAdapter;
 
-import com.example.rompecabezas.Record;
-
 import java.io.File;
 import java.util.List;
 
@@ -42,10 +40,10 @@ public class RecordAdapter extends ArrayAdapter<Record> {
                 imageView.setImageURI(imageUri);
             } catch (Exception e) {
                 e.printStackTrace();
-                imageView.setImageResource(R.drawable.ic_launcher_foreground); // Imagen por defecto si falla
+                imageView.setImageResource(R.drawable.ic_launcher_foreground);
             }
         } else {
-            imageView.setImageResource(R.drawable.ic_launcher_foreground); // Imagen por defecto
+            imageView.setImageResource(R.drawable.ic_launcher_foreground);
         }
 
         return convertView;

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -104,36 +105,79 @@ public class FragmentJuego extends Fragment {
             indices.add(i);
         }
         indices.add(-1);
+
         Collections.shuffle(indices);
 
-        int index = 0;
-        for (int i = 0; i < tamanoRompecabezas; i++) {
-            for (int j = 0; j < tamanoRompecabezas; j++) {
-                ImageView pieza = new ImageView(getContext());
-                pieza.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                pieza.setAdjustViewBounds(true);
+        gridPuzzle.post(new Runnable() {
+            @Override
+            public void run() {
+                int puzzleWidth = gridPuzzle.getWidth();
+                int puzzleHeight = gridPuzzle.getHeight();
 
-                if (indices.get(index) != -1) {
-                    pieza.setImageBitmap(piezasImagen.get(indices.get(index)));
-                } else {
-                    espacioBlancoX = i;
-                    espacioBlancoY = j;
+                if (puzzleWidth == 0 || puzzleHeight == 0) {
+                    Toast.makeText(getContext(), "Error: El GridLayout no tiene un tamaño válido.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                pieza.setPadding(5, 5, 5, 5);
-                final int x = i, y = j;
-                pieza.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        moverPieza(x, y);
+
+                int pieceWidth = puzzleWidth / tamanoRompecabezas;
+                int pieceHeight = puzzleHeight / tamanoRompecabezas;
+
+                int index = 0;
+                for (int i = 0; i < tamanoRompecabezas; i++) {
+                    for (int j = 0; j < tamanoRompecabezas; j++) {
+                        ImageView pieza = new ImageView(getContext());
+                        pieza.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        pieza.setAdjustViewBounds(true);
+
+                        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+                        params.width = pieceWidth;
+                        params.height = pieceHeight;
+                        pieza.setLayoutParams(params);
+
+                        final int currentIndex = i * tamanoRompecabezas + j;
+
+                        if (indices.get(currentIndex) != -1) {
+                            pieza.setImageBitmap(piezasImagen.get(indices.get(currentIndex)));
+                        } else {
+                            pieza.setImageDrawable(null);
+                            espacioBlancoX = i;
+                            espacioBlancoY = j;
+                        }
+
+                        pieza.setPadding(5, 5, 5, 5);
+
+                        final int x = i, y = j;
+                        pieza.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (Math.abs(x - espacioBlancoX) == 1 && y == espacioBlancoY ||
+                                        Math.abs(y - espacioBlancoY) == 1 && x == espacioBlancoX) {
+                                    moverPieza(x, y);
+                                }
+                            }
+                        });
+
+                        piezas[i][j] = pieza;
+                        gridPuzzle.addView(pieza);
                     }
-                });
-                piezas[i][j] = pieza;
-                gridPuzzle.addView(pieza);
-                index++;
+                }
             }
-        }
+        });
     }
 
+    private void moverPieza(int x, int y) {
+        if ((Math.abs(x - espacioBlancoX) == 1 && y == espacioBlancoY) ||
+                (Math.abs(y - espacioBlancoY) == 1 && x == espacioBlancoX)) {
+
+            piezas[espacioBlancoX][espacioBlancoY].setImageBitmap(((BitmapDrawable) piezas[x][y].getDrawable()).getBitmap());
+            piezas[x][y].setImageDrawable(null);
+
+            espacioBlancoX = x;
+            espacioBlancoY = y;
+
+            verificarVictoria();
+        }
+    }
     private ArrayList<Bitmap> dividirImagen(Bitmap imagen, int tamano) {
         ArrayList<Bitmap> piezas = new ArrayList<>();
         int anchoPieza = imagen.getWidth() / tamano;
@@ -146,15 +190,7 @@ public class FragmentJuego extends Fragment {
         }
         return piezas;
     }
-    private void moverPieza(int x, int y) {
-        if ((Math.abs(x - espacioBlancoX) == 1 && y == espacioBlancoY) || (Math.abs(y - espacioBlancoY) == 1 && x == espacioBlancoX)) {
-            piezas[espacioBlancoX][espacioBlancoY].setImageBitmap(((BitmapDrawable) piezas[x][y].getDrawable()).getBitmap());
-            piezas[x][y].setImageDrawable(null);
-            espacioBlancoX = x;
-            espacioBlancoY = y;
-            verificarVictoria();
-        }
-    }
+
     private void verificarVictoria() {
         boolean ganado = true;
         int index = 0;
@@ -181,16 +217,11 @@ public class FragmentJuego extends Fragment {
     }
 
     private void mostrarMensajeVictoria() {
-//        Toast.makeText(getContext(), "¡Felicidades! Has completado el rompecabezas", Toast.LENGTH_LONG).show();
-//        Button btnVolver = getView().findViewById(R.id.btn_volver);
-//        btnVolver.setText("¡Ganaste! Volver");
         long tiempoFinal = System.currentTimeMillis();
-        long tiempoTotal = (tiempoFinal - tiempoInicio) / 1000; // Convertir a segundos
+        long tiempoTotal = (tiempoFinal - tiempoInicio) / 1000;
 
-        // Obtener fecha y hora actual
         String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        // Guardar en base de datos
         DBRecords db = new DBRecords(getContext());
         db.insertarTiempo(tiempoTotal, imagenUri.toString(), fecha);
 
@@ -219,12 +250,11 @@ public class FragmentJuego extends Fragment {
         for (int i = 0; i < tamanoRompecabezas; i++) {
             for (int j = 0; j < tamanoRompecabezas; j++) {
                 if (piezas[i][j].getDrawable() == null) {
-                    estado[i][j] = 0; // Espacio en blanco
+                    estado[i][j] = 0;
                 } else {
-                    // Buscar la imagen en la lista de piezas y asignar su número correspondiente
                     Bitmap bitmapActual = ((BitmapDrawable) piezas[i][j].getDrawable()).getBitmap();
                     int index = piezasImagen.indexOf(bitmapActual);
-                    estado[i][j] = index + 1; // Sumamos 1 para mantener la numeración
+                    estado[i][j] = index + 1;
                 }
             }
         }

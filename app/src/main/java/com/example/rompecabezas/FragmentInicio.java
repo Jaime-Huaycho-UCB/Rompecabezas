@@ -56,7 +56,7 @@ public class FragmentInicio extends Fragment {
                     if (tamanoIngresado >= 2 && tamanoIngresado <= 10) {
                         tamanoRompecabezas = tamanoIngresado;
                     } else {
-                        tamanoRompecabezas = 3; // Valor por defecto si el número no es válido
+                        tamanoRompecabezas = 3;
                     }
                 }
 

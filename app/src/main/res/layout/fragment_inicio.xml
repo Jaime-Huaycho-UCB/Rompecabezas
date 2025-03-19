@@ -7,28 +7,44 @@
     android:padding="20dp"
     android:background="#121212">
 
+    <!-- Título del juego -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rompecabezas"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:gravity="center" />
+
+    <!-- Botón para elegir imagen desde la galería -->
     <Button
         android:id="@+id/btn_galeria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Elegir de galería"
         android:textColor="#FFFFFF"
-        android:background="@null"
+        android:textSize="16sp"
+        android:background="@drawable/button_background"
         android:padding="12dp"
         android:layout_marginBottom="12dp"
         android:elevation="8dp"/>
 
+    <!-- Botón para tomar foto -->
     <Button
         android:id="@+id/btn_camara"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tomar una foto"
         android:textColor="#FFFFFF"
-        android:background="@null"
+        android:textSize="16sp"
+        android:background="@drawable/button_background"
         android:padding="12dp"
         android:layout_marginBottom="12dp"
         android:elevation="8dp"/>
 
+    <!-- Instrucciones para el tamaño del rompecabezas -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,6 +54,7 @@
         android:paddingTop="16dp"
         android:layout_marginBottom="8dp"/>
 
+    <!-- Input para ingresar el tamaño -->
     <EditText
         android:id="@+id/input_tamano"
         android:layout_width="match_parent"
@@ -45,26 +62,31 @@
         android:hint="Ejemplo: 3"
         android:textColorHint="#CCCCCC"
         android:textColor="#FFFFFF"
-        android:background="@null"
+        android:background="@drawable/edittext_background"
         android:inputType="number"
         android:padding="12dp"
         android:layout_marginBottom="16dp"/>
 
+    <!-- Botón para iniciar el juego -->
     <Button
         android:id="@+id/btn_iniciar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Iniciar Juego"
         android:textColor="#FFFFFF"
-        android:background="@null"
+        android:textSize="16sp"
+        android:background="@drawable/button_background"
         android:padding="12dp"
         android:elevation="8dp"/>
+
+    <!-- Botón para ver los records -->
     <Button
         android:id="@+id/btn_records"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ver Récords"
         android:textColor="#FFFFFF"
+        android:textSize="16sp"
         android:background="#3F51B5"
         android:padding="12dp"
         android:elevation="8dp"

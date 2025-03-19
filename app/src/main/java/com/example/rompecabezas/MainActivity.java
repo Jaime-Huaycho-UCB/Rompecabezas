@@ -22,11 +22,6 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.fragment_container, new FragmentInicio())
                     .commit();
         }
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.layout.activity_main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
     }
 
     public void cambiarFragmento(Fragment fragment) {

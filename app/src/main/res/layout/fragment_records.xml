@@ -2,24 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00BCD4">
+    android:background="#B6000ED4">
 
+    <!-- Título de la pantalla de Records -->
     <TextView
         android:id="@+id/tvTituloRecords"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Records"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
         android:gravity="center"
-        android:paddingBottom="10dp"
-        android:textColor="#000000"/>
+        android:text="Records"
+        android:textColor="#FFFFFF"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp"/>
 
+    <!-- Lista de records -->
     <ListView
         android:id="@+id/lv_records"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:layout_below="@id/tvTituloRecords"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/listview_background"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="2dp"/>
+        android:dividerHeight="1dp"
+        android:padding="16dp" />
 </RelativeLayout>
